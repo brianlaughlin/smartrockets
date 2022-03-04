@@ -11,6 +11,7 @@ Taken from https://www.youtube.com/watch?v=bGz7mv2vD6g
 import pygame
 import random
 import constants
+from moon import Moon
 
 from rocket import Rocket
 
@@ -33,22 +34,6 @@ WIN = pygame.display.set_mode((constants.WIDTH, constants.HEIGHT))
 # Global Variables
 life_counter = 0
 success_counter = 0
-
-
-class Moon():
-    def __init__(self):
-        self.x = constants.MOON_X
-        self.y = constants.MOON_Y
-        self.image = pygame.image.load("assets/moon.png")
-        self.image = pygame.transform.scale(self.image, (50, 50))
-        self.rect = self.image.get_rect()
-        self.rect.x = self.x
-        self.rect.y = self.y
-        self.width = self.rect.width
-        self.height = self.rect.height
-
-    def draw(self):
-        WIN.blit(self.image, (self.x, self.y))
 
 
 class population():
@@ -125,7 +110,7 @@ def draw(WIN, rocket_population, moon, obstacles_list):
     success_text = LIFE_FONT.render(f"Success: {success_counter}", 1, constants.BLACK)
     WIN.blit(success_text, (10, 30))
 
-    moon.draw()
+    moon.draw(WIN)
 
     # draw a black rectangle filled in black
     for obstacle in obstacles_list:
