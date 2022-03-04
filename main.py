@@ -20,6 +20,7 @@ pygame.font.init()
 
 LIFE_FONT = pygame.font.SysFont("comicsansms", 10)
 SUCCESS_FONT = pygame.font.SysFont("comicsansms", 10)
+START_OVER_FONT = pygame.font.SysFont("comicsansms", 10)
 
 pygame.display.set_caption("Smart Rocket Simulation")
 
@@ -41,6 +42,11 @@ def draw(WIN, rocket_population, moon, obstacles_list):
 
     success_text = LIFE_FONT.render(f"Success: {success_counter}", 1, constants.BLACK)
     WIN.blit(success_text, (10, 30))
+
+    start_over_text = START_OVER_FONT.render("Press 's' to restart", 1, constants.BLUE)
+    # display in bottom right corner, calculate position using constants
+    WIN.blit(start_over_text, (constants.WIDTH - start_over_text.get_width() - 10,
+                               constants.HEIGHT - start_over_text.get_height() - 10))
 
     moon.draw(WIN)
 
@@ -122,6 +128,11 @@ def main():
                     drawing = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     drawing = True
+
+            # if 'S' is pressed redo population as new generation
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:
+                    rocket_population = population(rocket_population_max)
 
         handle_collisions(rocket_population, moon, obstacle_list)
 

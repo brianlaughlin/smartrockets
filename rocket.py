@@ -5,10 +5,6 @@ from pygame import math as math
 from dna import DNA
 import constants
 
-
-# from main import WIDTH, HEIGHT, DNA, WIN, MOON_X, MOON_Y
-
-
 class Rocket():
     def __init__(self, color, dna=None):
         self.x = constants.WIDTH / 2
@@ -39,7 +35,6 @@ class Rocket():
         """
         Simple physics engine update
         """
-        # global life_counter
 
         self.apply_force(self.dna.genes[life_counter])
 
@@ -67,6 +62,8 @@ class Rocket():
         if self.visible:
             WIN.blit(rotate_image, (self.pos.x - center[0], self.pos.y - center[1]))
 
+    # todo: Improve fitness function
+    # https://gamedev.stackexchange.com/questions/134732/genetic-algorithms-fitness-function-simple-maze-game?newreg=f8ccba1680b2402ea60385e33717ab6e
     def calculate_fitness(self):
         """
         The closer the rocket is to the moon the more fit the rocket is.
