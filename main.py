@@ -62,6 +62,9 @@ def handle_collisions(rocket_population, moon, obstacles_list):
                 rocket.pos.y > moon.y and rocket.pos.y < moon.y + moon.height:
             rocket.crashed = True
             rocket.success = True
+            rocket.life_span_count = life_counter  # will use this for fitness function
+            print(f"Rocket lifespan: {rocket.life_span_count}")
+
             # set rocket position to moon position to give best fitness score possible
             rocket.pos.x, rocket.pos.y = moon.x, moon.y
             rocket.visible = False

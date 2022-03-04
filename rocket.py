@@ -71,9 +71,12 @@ class Rocket():
         """
         The closer the rocket is to the moon the more fit the rocket is.
         """
+
         # get distance from moon
         distance = m.sqrt((self.pos.x - constants.MOON_X) ** 2 + (self.pos.y - constants.MOON_Y) ** 2)
         # get the distance from the moon and make sure to check for divide by 0
         if distance == 0:
             distance = 1
         self.fitness = 10 / distance if self.success else 1 / distance  # fitness is the inverse of distance
+
+#todo: write using lifespan with distance. Improve fitness function by using time.
