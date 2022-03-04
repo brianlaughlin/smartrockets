@@ -23,8 +23,6 @@ pygame.font.init()
 LIFE_FONT = pygame.font.SysFont("comicsansms", 10)
 SUCCESS_FONT = pygame.font.SysFont("comicsansms", 10)
 
-FPS = 60
-
 pygame.display.set_caption("Smart Rocket Simulation")
 
 WIN = pygame.display.set_mode((constants.WIDTH, constants.HEIGHT))
@@ -159,7 +157,7 @@ def main():
     obstacle_list = []
 
     while run:
-        clock.tick(FPS)
+        clock.tick(constants.FPS)
         life_counter += 1
         if life_counter >= constants.LIFESPAN:
             life_counter = 0
