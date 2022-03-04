@@ -9,19 +9,16 @@ Taken from https://www.youtube.com/watch?v=bGz7mv2vD6g
 """
 
 import pygame
-import pygame.math as math
 import random
-import math as m
+import constants
+
+from rocket import Rocket
 
 pygame.init()
 
 # initialize for fonts
 pygame.font.init()
 
-WIDTH, HEIGHT = 800, 800
-
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
 LIFE_FONT = pygame.font.SysFont("comicsansms", 10)
 SUCCESS_FONT = pygame.font.SysFont("comicsansms", 10)
 
@@ -29,11 +26,9 @@ FPS = 60
 
 pygame.display.set_caption("Smart Rocket Simulation")
 
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+WIN = pygame.display.set_mode((constants.WIDTH, constants.HEIGHT))
 
-LIFESPAN = 300
 
-MOON_X, MOON_Y = WIDTH / 2, 50
 
 # Global Variables
 life_counter = 0
@@ -42,8 +37,8 @@ success_counter = 0
 
 class Moon():
     def __init__(self):
-        self.x = MOON_X
-        self.y = MOON_Y
+        self.x = constants.MOON_X
+        self.y = constants.MOON_Y
         self.image = pygame.image.load("assets/moon.png")
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
@@ -56,118 +51,6 @@ class Moon():
         WIN.blit(self.image, (self.x, self.y))
 
 
-# Rocket class
-class Rocket():
-    def __init__(self, color, dna=None):
-        self.x = WIDTH / 2
-        self.y = HEIGHT - 50
-        self.pos = math.Vector2(self.x, self.y)
-        self.dna = DNA() if dna is None else dna
-        self.life_span_count = 0
-
-        # randomize the velocity with it going up
-        self.vel = math.Vector2(0, 0)
-        self.acc = math.Vector2(0, 0)
-        self.color = color
-        self.thrust = False
-        self.fitness = 0
-        self.crashed = False
-        self.success = False
-        self.visible = True
-        # load image in assets/3 rockets.png 3 images 100 px wide, take the 3rd image
-        self.image = pygame.image.load("assets/rocket.png")
-        # Shrink the width of image by 25%
-        self.image = pygame.transform.scale(self.image,
-                                            (int(self.image.get_width() * 0.25), int(self.image.get_height() * 0.25)))
-
-    def apply_force(self, force):
-        self.acc += force
-
-    def update(self):
-        """
-        Simple physics engine update
-        """
-        global life_counter
-
-
-        self.apply_force(self.dna.genes[life_counter])
-
-        # if the rocket is not crashed
-        if not self.crashed:
-            self.vel += self.acc
-            self.pos += self.vel
-            self.acc *= 0
-
-
-    def show(self):
-        """
-        Rotate image while keeping its center
-        Point in the direction of the velocity
-        """
-
-        # solve for angle of velocity
-        angle = m.atan2(self.vel.x, self.vel.y)
-        degrees = m.degrees(angle) + 180  # so it's pointing in the right direction
-
-        # rotate image
-        rotate_image = pygame.transform.rotate(self.image, degrees)
-        # get the center of the image
-        center = rotate_image.get_rect().center
-        # draw the image if visible
-        if self.visible:
-            WIN.blit(rotate_image, (self.pos.x - center[0], self.pos.y - center[1]))
-
-    def calculate_fitness(self):
-        """
-        The closer the rocket is to the moon the more fit the rocket is.
-        """
-        # get distance from moon
-        distance = m.sqrt((self.pos.x - MOON_X) ** 2 + (self.pos.y - MOON_Y) ** 2)
-        # get the distance from the moon and make sure to check for divide by 0
-        if distance == 0:
-            distance = 1
-        self.fitness = 10 / distance if self.success else 1 / distance # fitness is the inverse of distance
-
-
-class DNA():
-    def __init__(self, genes=None):
-        if genes is None:
-            self.genes = []
-
-            for _ in range(LIFESPAN):
-                # self.genes.append(math.Vector2(random.randint(-1, 1), random.randint(-1, 1)))
-                a, b = (math.Vector2(random.randint(-1, 1), random.randint(-1, 1)))
-
-                # change magnitude of the vector to 0.1
-                a *= 0.2
-                b *= 0.2
-                self.genes.append((a, b))
-        else:
-            self.genes = genes
-
-    def crossover(self, partner):
-        """
-        Take half of the genes from the partner
-        return new DNA(new_genes)
-        """
-        mid = len(self.genes) // 2
-        new_genes = [self.genes[i] for i in range(mid)]
-        new_genes.extend(partner.genes[i] for i in range(mid, len(self.genes)))
-        return DNA(new_genes)
-
-
-    def mutate(self):
-        mutation_rate = 0.01
-        for i in range(len(self.genes)):
-            if random.random() < mutation_rate:
-                a, b = (math.Vector2(random.randint(-1, 1), random.randint(-1, 1)))
-
-                # change magnitude of the vector to 0.1
-                a *= 0.1
-                b *= 0.1
-                self.genes[i] = (a, b)
-
-
 class population():
     def __init__(self, pop_size):
         self.rockets = []
@@ -175,7 +58,7 @@ class population():
         self.mating_pool = []
         self.generation = 1
 
-        self.rockets.extend(Rocket(WHITE) for _ in range(pop_size))
+        self.rockets.extend(Rocket(constants.WHITE) for _ in range(pop_size))
 
     def evaluate(self):
         """
@@ -219,34 +102,34 @@ class population():
             # create a child rocket
             child = parent_a.dna.crossover(parent_b.dna)
             child.mutate()
-            new_population.append(Rocket(WHITE, child))
+            new_population.append(Rocket(constants.WHITE, child))
 
         self.rockets = new_population
         self.generation += 1
 
     def run(self):
         for i in range(self.pop_size):
-            self.rockets[i].update()
-            self.rockets[i].show()
+            self.rockets[i].update(life_counter)
+            self.rockets[i].show(WIN)
 
 
 def draw(WIN, rocket_population, moon, obstacles_list):
     global life_counter
     global success_counter
 
-    WIN.fill(WHITE)
+    WIN.fill(constants.WHITE)
 
-    life_text = LIFE_FONT.render(f"Count: {life_counter}", 1, BLACK)
+    life_text = LIFE_FONT.render(f"Count: {life_counter}", 1, constants.BLACK)
     WIN.blit(life_text, (10, 10))
 
-    success_text = LIFE_FONT.render(f"Success: {success_counter}", 1, BLACK)
+    success_text = LIFE_FONT.render(f"Success: {success_counter}", 1, constants.BLACK)
     WIN.blit(success_text, (10, 30))
 
     moon.draw()
 
     # draw a black rectangle filled in black
     for obstacle in obstacles_list:
-        pygame.draw.rect(WIN, BLACK, (obstacle[0], obstacle[1], 10, 10))
+        pygame.draw.rect(WIN, constants.BLACK, (obstacle[0], obstacle[1], 10, 10))
 
     rocket_population.run()
 
@@ -269,7 +152,7 @@ def handle_collisions(rocket_population, moon, obstacles_list):
             success_counter += 1
 
         # stop rockets from going off screen
-        if rocket.pos.x > WIDTH or rocket.pos.x < 0 or rocket.pos.y > HEIGHT or rocket.pos.y < 0:
+        if rocket.pos.x > constants.WIDTH or rocket.pos.x < 0 or rocket.pos.y > constants.HEIGHT or rocket.pos.y < 0:
             rocket.crashed = True
 
         # check if rocket is colliding with obstacles
@@ -298,7 +181,7 @@ def main():
     while run:
         clock.tick(FPS)
         life_counter += 1
-        if life_counter >= LIFESPAN:
+        if life_counter >= constants.LIFESPAN:
             life_counter = 0
             success_counter = 0
 

@@ -1,0 +1,13 @@
+
+
+
+WIDTH, HEIGHT = 800, 800
+
+# Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+
+
+LIFESPAN = 300
+
+MOON_X, MOON_Y = WIDTH / 2, 50
