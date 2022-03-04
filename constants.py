@@ -1,12 +1,8 @@
-
-
-
 WIDTH, HEIGHT = 800, 800
 
 # Colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-
 
 LIFESPAN = 300
 

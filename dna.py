@@ -31,7 +31,6 @@ class DNA():
         new_genes.extend(partner.genes[i] for i in range(mid, len(self.genes)))
         return DNA(new_genes)
 
-
     def mutate(self):
         mutation_rate = 0.01
         for i in range(len(self.genes)):

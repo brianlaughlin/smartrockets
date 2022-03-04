@@ -5,6 +5,7 @@ from pygame import math as math
 from dna import DNA
 import constants
 
+
 # from main import WIDTH, HEIGHT, DNA, WIN, MOON_X, MOON_Y
 
 
@@ -40,7 +41,6 @@ class Rocket():
         """
         # global life_counter
 
-
         self.apply_force(self.dna.genes[life_counter])
 
         # if the rocket is not crashed
@@ -48,7 +48,6 @@ class Rocket():
             self.vel += self.acc
             self.pos += self.vel
             self.acc *= 0
-
 
     def show(self, WIN):
         """
@@ -77,4 +76,4 @@ class Rocket():
         # get the distance from the moon and make sure to check for divide by 0
         if distance == 0:
             distance = 1
-        self.fitness = 10 / distance if self.success else 1 / distance # fitness is the inverse of distance
+        self.fitness = 10 / distance if self.success else 1 / distance  # fitness is the inverse of distance

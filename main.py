@@ -29,8 +29,6 @@ pygame.display.set_caption("Smart Rocket Simulation")
 
 WIN = pygame.display.set_mode((constants.WIDTH, constants.HEIGHT))
 
-
-
 # Global Variables
 life_counter = 0
 success_counter = 0
@@ -68,14 +66,12 @@ class population():
             if max_fitness != 0:
                 rocket.fitness /= max_fitness
 
-
         # create a mating pool
         self.mating_pool = []
         for rocket in self.rockets:
             n = int(rocket.fitness * 100)
             # add rocket to the mating pool n times
-            self.mating_pool.extend(rocket for _ in range(n)) # add rocket to the mating pool n times
-
+            self.mating_pool.extend(rocket for _ in range(n))  # add rocket to the mating pool n times
 
     def selection(self):
         # create a new population
@@ -143,9 +139,8 @@ def handle_collisions(rocket_population, moon, obstacles_list):
         # check if rocket is colliding with obstacles
         for obstacle in obstacles_list:
             if rocket.pos.x > obstacle[0] and rocket.pos.x < obstacle[0] + 10 and \
-                rocket.pos.y > obstacle[1] and rocket.pos.y < obstacle[1] + 10:
+                    rocket.pos.y > obstacle[1] and rocket.pos.y < obstacle[1] + 10:
                 rocket.crashed = True
-
 
 
 def main():
@@ -173,11 +168,9 @@ def main():
             rocket_population.evaluate()
             rocket_population.selection()
 
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-
 
             # if mouse button is held and mouse is moving save position in obstacle list
             # do not save if mouse button is released
@@ -190,8 +183,6 @@ def main():
                     drawing = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     drawing = True
-
-
 
         handle_collisions(rocket_population, moon, obstacle_list)
 
