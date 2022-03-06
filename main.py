@@ -150,6 +150,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
                     rocket_population = population(rocket_population_max)
+                    number_of_generations = 0
 
         handle_collisions(rocket_population, moon, obstacle_list)
 
