@@ -18,9 +18,7 @@ pygame.init()
 # initialize for fonts
 pygame.font.init()
 
-LIFE_FONT = pygame.font.SysFont("comicsansms", 10)
-SUCCESS_FONT = pygame.font.SysFont("comicsansms", 10)
-START_OVER_FONT = pygame.font.SysFont("comicsansms", 10)
+DEFAULT_FONT = pygame.font.SysFont("comicsansms", 10)
 
 pygame.display.set_caption("Smart Rocket Simulation")
 
@@ -37,13 +35,13 @@ def draw(WIN, rocket_population, moon, obstacles_list):
 
     WIN.fill(constants.WHITE)
 
-    life_text = LIFE_FONT.render(f"Count: {life_counter}", 1, constants.BLACK)
+    life_text = DEFAULT_FONT.render(f"Count: {life_counter}", 1, constants.BLACK)
     WIN.blit(life_text, (10, 10))
 
-    success_text = LIFE_FONT.render(f"Success: {success_counter}", 1, constants.BLACK)
+    success_text = DEFAULT_FONT.render(f"Success: {success_counter}", 1, constants.BLACK)
     WIN.blit(success_text, (10, 30))
 
-    start_over_text = START_OVER_FONT.render("Press 's' to restart", 1, constants.BLUE)
+    start_over_text = DEFAULT_FONT.render("Press 's' to restart", 1, constants.BLUE)
     # display in bottom right corner, calculate position using constants
     WIN.blit(start_over_text, (constants.WIDTH - start_over_text.get_width() - 10,
                                constants.HEIGHT - start_over_text.get_height() - 10))
