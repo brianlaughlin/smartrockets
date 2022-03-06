@@ -11,7 +11,6 @@ class DNA():
             self.genes = []
 
             for _ in range(constants.LIFESPAN):
-                # self.genes.append(math.Vector2(random.randint(-1, 1), random.randint(-1, 1)))
                 a, b = (math.Vector2(random.randint(-1, 1), random.randint(-1, 1)))
 
                 # change magnitude of the vector to 0.1
