@@ -27,11 +27,15 @@ WIN = pygame.display.set_mode((constants.WIDTH, constants.HEIGHT))
 # Global Variables
 life_counter = 0
 success_counter = 0
+success_count_highest = 0
+number_of_generations = 0
 
 
 def draw(WIN, rocket_population, moon, obstacles_list):
     global life_counter
     global success_counter
+    global success_count_highest
+    global number_of_generations
 
     WIN.fill(constants.WHITE)
 
@@ -40,6 +44,14 @@ def draw(WIN, rocket_population, moon, obstacles_list):
 
     success_text = DEFAULT_FONT.render(f"Success: {success_counter}", 1, constants.BLACK)
     WIN.blit(success_text, (10, 30))
+
+    success_count_highest_text = DEFAULT_FONT.render(f"Highest: {success_count_highest}", 1, constants.BLACK)
+    # place to the right of success text and account for the width of the text
+    WIN.blit(success_count_highest_text, (success_text.get_width() + 16, 30))
+
+    # add generation text called number_of_generations
+    generation_text = DEFAULT_FONT.render(f"Generation: {number_of_generations}", 1, constants.BLACK)
+    WIN.blit(generation_text, (10, 50))
 
     start_over_text = DEFAULT_FONT.render("Press 's' to restart", 1, constants.BLUE)
     # display in bottom right corner, calculate position using constants
@@ -59,6 +71,7 @@ def draw(WIN, rocket_population, moon, obstacles_list):
 
 def handle_collisions(rocket_population, moon, obstacles_list):
     global success_counter
+    global success_count_highest
 
     for rocket in rocket_population.rockets:
         # check if rocket is colliding with moon rectangle
@@ -75,6 +88,9 @@ def handle_collisions(rocket_population, moon, obstacles_list):
 
             success_counter += 1
 
+            if success_count_highest < success_counter:
+                success_count_highest = success_counter
+
         # stop rockets from going off screen
         if rocket.pos.x > constants.WIDTH or rocket.pos.x < 0 or rocket.pos.y > constants.HEIGHT or rocket.pos.y < 0:
             rocket.crashed = True
@@ -89,6 +105,8 @@ def handle_collisions(rocket_population, moon, obstacles_list):
 def main():
     global life_counter
     global success_counter
+    global success_count_highest
+    global number_of_generations
 
     run = True
     clock = pygame.time.Clock()
@@ -107,6 +125,7 @@ def main():
         if life_counter >= constants.LIFESPAN:
             life_counter = 0
             success_counter = 0
+            number_of_generations += 1
 
             rocket_population.evaluate()
             rocket_population.selection()
