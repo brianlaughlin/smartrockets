@@ -80,7 +80,7 @@ def handle_collisions(rocket_population, moon, obstacles_list):
 
     for rocket in rocket_population.rockets:
         # check if rocket is colliding with moon rectangle
-        if rocket.pos.x > moon.x and rocket.pos.x < moon.x + moon.width and \
+        if moon.x < rocket.pos.x < moon.x + moon.width and \
                 rocket.pos.y > moon.y and rocket.pos.y < moon.y + moon.height:
             rocket.crashed = True
             rocket.success = True
