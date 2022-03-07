@@ -5,7 +5,8 @@ from pygame import math as math
 from dna import DNA
 import constants
 
-class Rocket():
+
+class Rocket:
     def __init__(self, color, dna=None):
         self.x = constants.WIDTH / 2
         self.y = constants.HEIGHT - 50
@@ -76,4 +77,4 @@ class Rocket():
             distance = 1
         self.fitness = 10 / distance if self.success else 1 / distance  # fitness is the inverse of distance
 
-#todo: write using lifespan with distance. Improve fitness function by using time.
+# todo: write using lifespan with distance. Improve fitness function by using time.
