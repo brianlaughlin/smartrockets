@@ -39,26 +39,26 @@ def draw(WIN, rocket_population, moon, obstacles_list):
 
     WIN.fill(constants.WHITE)
 
-    life_text = DEFAULT_FONT.render(f"Count: {life_counter}", 1, constants.BLACK)
+    life_text = DEFAULT_FONT.render(f"Count: {life_counter}", True, constants.BLACK)
     WIN.blit(life_text, (10, 10))
 
-    success_text = DEFAULT_FONT.render(f"Success: {success_counter}", 1, constants.BLACK)
+    success_text = DEFAULT_FONT.render(f"Success: {success_counter}", True, constants.BLACK)
     WIN.blit(success_text, (10, 30))
 
-    success_count_highest_text = DEFAULT_FONT.render(f"Highest: {success_count_highest}", 1, constants.BLACK)
+    success_count_highest_text = DEFAULT_FONT.render(f"Highest: {success_count_highest}", True, constants.BLACK)
     # place to the right of success text and account for the width of the text
     WIN.blit(success_count_highest_text, (success_text.get_width() + 16, 30))
 
     # add generation text called number_of_generations
-    generation_text = DEFAULT_FONT.render(f"Generation: {number_of_generations}", 1, constants.BLACK)
+    generation_text = DEFAULT_FONT.render(f"Generation: {number_of_generations}", True, constants.BLACK)
     WIN.blit(generation_text, (10, 50))
 
-    right_click_text = DEFAULT_FONT.render("Right Click Move Moon", 1, constants.BLUE)
+    right_click_text = DEFAULT_FONT.render("Right Click Move Moon", True, constants.BLUE)
     # display in bottom right corner, calculate position using constants and place above start_over_text
     WIN.blit(right_click_text, (constants.WIDTH - right_click_text.get_width() - 10,
                                 constants.HEIGHT - right_click_text.get_height() - 30))
 
-    start_over_text = DEFAULT_FONT.render("Press 's' to restart", 1, constants.BLUE)
+    start_over_text = DEFAULT_FONT.render("Press 's' to restart", True, constants.BLUE)
     # display in bottom right corner, calculate position using constants
     WIN.blit(start_over_text, (constants.WIDTH - start_over_text.get_width() - 10,
                                constants.HEIGHT - start_over_text.get_height() - 10))
@@ -157,7 +157,6 @@ def main():
                 moon.move = True
                 moon.x, moon.y = pygame.mouse.get_pos()
                 print(moon.x, moon.y)
-
 
             # if 'S' is pressed redo population as new generation
             if event.type == pygame.KEYDOWN:
