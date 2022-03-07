@@ -53,7 +53,7 @@ def draw(WIN, rocket_population, moon, obstacles_list):
     generation_text = DEFAULT_FONT.render(f"Generation: {number_of_generations}", 1, constants.BLACK)
     WIN.blit(generation_text, (10, 50))
 
-    right_click_text = DEFAULT_FONT.render(f"Right Click Move Moon", 1, constants.BLUE)
+    right_click_text = DEFAULT_FONT.render("Right Click Move Moon", 1, constants.BLUE)
     # display in bottom right corner, calculate position using constants and place above start_over_text
     WIN.blit(right_click_text, (constants.WIDTH - right_click_text.get_width() - 10,
                                 constants.HEIGHT - right_click_text.get_height() - 30))
