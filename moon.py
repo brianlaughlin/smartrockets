@@ -14,6 +14,7 @@ class Moon():
         self.rect.y = self.y
         self.width = self.rect.width
         self.height = self.rect.height
+        self.move = False
 
     def draw(self, WIN):
         WIN.blit(self.image, (self.x, self.y))

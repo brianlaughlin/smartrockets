@@ -53,6 +53,11 @@ def draw(WIN, rocket_population, moon, obstacles_list):
     generation_text = DEFAULT_FONT.render(f"Generation: {number_of_generations}", 1, constants.BLACK)
     WIN.blit(generation_text, (10, 50))
 
+    right_click_text = DEFAULT_FONT.render(f"Right Click Move Moon", 1, constants.BLUE)
+    # display in bottom right corner, calculate position using constants and place above start_over_text
+    WIN.blit(right_click_text, (constants.WIDTH - right_click_text.get_width() - 10,
+                                constants.HEIGHT - right_click_text.get_height() - 30))
+
     start_over_text = DEFAULT_FONT.render("Press 's' to restart", 1, constants.BLUE)
     # display in bottom right corner, calculate position using constants
     WIN.blit(start_over_text, (constants.WIDTH - start_over_text.get_width() - 10,
@@ -145,6 +150,14 @@ def main():
                     drawing = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     drawing = True
+
+            left, middle, right = pygame.mouse.get_pressed()
+            # move the moon to the mouse position with right click
+            if right:
+                moon.move = True
+                moon.x, moon.y = pygame.mouse.get_pos()
+                print(moon.x, moon.y)
+
 
             # if 'S' is pressed redo population as new generation
             if event.type == pygame.KEYDOWN:
