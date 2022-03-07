@@ -64,13 +64,13 @@ class Rocket():
 
     # todo: Improve fitness function
     # https://gamedev.stackexchange.com/questions/134732/genetic-algorithms-fitness-function-simple-maze-game?newreg=f8ccba1680b2402ea60385e33717ab6e
-    def calculate_fitness(self):
+    def calculate_fitness(self, moon):
         """
         The closer the rocket is to the moon the more fit the rocket is.
         """
 
         # get distance from moon
-        distance = m.sqrt((self.pos.x - constants.MOON_X) ** 2 + (self.pos.y - constants.MOON_Y) ** 2)
+        distance = m.sqrt((self.pos.x - moon.x) ** 2 + (self.pos.y - moon.y) ** 2)
         # get the distance from the moon and make sure to check for divide by 0
         if distance == 0:
             distance = 1

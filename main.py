@@ -132,7 +132,7 @@ def main():
             success_counter = 0
             number_of_generations += 1
 
-            rocket_population.evaluate()
+            rocket_population.evaluate(moon)
             rocket_population.selection()
 
         for event in pygame.event.get():

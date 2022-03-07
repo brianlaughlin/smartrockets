@@ -13,7 +13,7 @@ class population():
 
         self.rockets.extend(Rocket(constants.WHITE) for _ in range(pop_size))
 
-    def evaluate(self):
+    def evaluate(self, moon):
         """
         Evaluate the fitness of each rocket
         I uses the distance from the rocket to moon as fitness
@@ -21,7 +21,7 @@ class population():
         """
         max_fitness = 0
         for rocket in self.rockets:
-            rocket.calculate_fitness()
+            rocket.calculate_fitness(moon)
             if rocket.fitness > max_fitness:
                 max_fitness = rocket.fitness
                 print(f"Max Fitness : {max_fitness}")
